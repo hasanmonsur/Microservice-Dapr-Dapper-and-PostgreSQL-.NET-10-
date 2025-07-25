@@ -1,0 +1,11 @@
+﻿apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+spec:
+  type: state.postgresql
+  version: v1
+  initTimeout: 30s  # Increased from default 5s
+  metadata:
+  - name: connectionString
+    value: "host=localhost port=5432 user=hasan password=postgres dbname=posdb sslmode=disable"

@@ -1,0 +1,15 @@
+﻿{
+  "profiles": {
+    "Dapr-Debug": {
+      "commandName": "Executable",
+      "executablePath": "dapr",
+      "commandLineArgs": "run --app-id pos-backend --app-port 5000 --dapr-http-port 3500 --log-level debug --components-path ./components dotnet run",
+      "workingDirectory": "$(ProjectDir)",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

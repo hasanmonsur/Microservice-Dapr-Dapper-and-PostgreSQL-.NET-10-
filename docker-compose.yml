@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  posdb:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: posdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  posbackend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - posdb
+
+  dapr-sidecar:
+    image: "daprio/daprd:1.14.4"
+    command: [
+      "./daprd",
+      "-app-id", "posbackend",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-dapr-http-port", "3500",
+      "-dapr-grpc-port", "50001"
+    ]
+    depends_on:
+      - posbackend
+    volumes:
+      - "./components:/components"
+    network_mode: "service:posbackend"
+
+volumes:
+  pgdata:
